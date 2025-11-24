@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Aplicación de Lista de Tareas (To-Do List)
 
 Esta es una aplicación web simple para gestionar tareas, construida con Python, Flask y SQLite.
@@ -36,6 +35,3 @@ python test_app.py
 ## Despliegue
 
 La aplicación está lista para ser desplegada en plataformas como Heroku o Render usando `gunicorn` como servidor de producción.
-=======
-# TodoTareasApp
->>>>>>> 9dc03244f6c8cf53e23c92cc9814a18323858860
