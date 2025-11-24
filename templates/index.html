@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        h1 { text-align: center; color: #333; }
+        .task { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 1rem 0; }
+        .completed { text-decoration: line-through; color: gray; }
+        form { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
+        input[type="text"] { flex-grow: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 0.8rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold; }
+        button:hover { background-color: #0056b3; }
+        a { text-decoration: none; font-size: 0.9rem; }
+        .btn-delete { color: #dc3545; margin-left: 1rem; }
+        .btn-check { color: #28a745; margin-right: 0.5rem; }
+        .actions { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+    <h1>Mis Tareas</h1>
+
+    <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="¿Qué tienes que hacer hoy?" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <div class="task-list">
+        {% for task in tasks %}
+        <div class="task">
+            <span class="{{ 'completed' if task.complete else '' }}">
+                {{ task.title }}
+            </span>
+            <div class="actions">
+                <a href="/update/{{ task.id }}" class="btn-check">
+                    {{ 'Deshacer' if task.complete else 'Completar' }}
+                </a>
+                <a href="/delete/{{ task.id }}" class="btn-delete">Eliminar</a>
+            </div>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: gray;">No hay tareas pendientes. ¡Agrega una!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
