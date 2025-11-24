@@ -5,42 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Tareas</title>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
-        h1 { text-align: center; color: #333; }
-        .task { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 1rem 0; }
-        .completed { text-decoration: line-through; color: gray; }
-        form { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
-        input[type="text"] { flex-grow: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; }
-        button { padding: 0.8rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold; }
-        button:hover { background-color: #0056b3; }
-        a { text-decoration: none; font-size: 0.9rem; }
-        .btn-delete { color: #dc3545; margin-left: 1rem; }
-        .btn-check { color: #28a745; margin-right: 0.5rem; }
-        .actions { display: flex; align-items: center; }
+        /* Estilos generales del cuerpo de la página */
+        body { 
+            font-family: sans-serif; 
+            max-width: 600px; 
+            margin: 2rem auto; 
+            padding: 0 1rem; 
+        }
+        
+        /* Título principal */
+        h1 { 
+            text-align: center; 
+            color: #333; 
+        }
+        
+        /* Contenedor de cada tarea individual */
+        .task { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #eee; 
+            padding: 1rem 0; 
+        }
+        
+        /* Estilo para tareas completadas (tachadas y grises) */
+        .completed { 
+            text-decoration: line-through; 
+            color: gray; 
+        }
+        
+        /* Formulario para agregar nuevas tareas */
+        form { 
+            display: flex; 
+            gap: 0.5rem; 
+            margin-bottom: 2rem; 
+        }
+        
+        /* Campo de texto para ingresar la tarea */
+        input[type="text"] { 
+            flex-grow: 1; 
+            padding: 0.8rem; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+        }
+        
+        /* Botón principal (Agregar tarea) */
+        button { 
+            padding: 0.8rem 1.5rem; 
+            cursor: pointer; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+        }
+        
+        /* Efecto hover en el botón */
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        
+        /* Enlaces de acción (Completar, Eliminar) */
+        a { 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+        }
+        
+        /* Enlace de eliminar (color rojo) */
+        .btn-delete { 
+            color: #dc3545; 
+            margin-left: 1rem; 
+        }
+        
+        /* Enlace de completar/deshacer (color verde) */
+        .btn-check { 
+            color: #28a745; 
+            margin-right: 0.5rem; 
+        }
+        
+        /* Contenedor de botones de acción */
+        .actions { 
+            display: flex; 
+            align-items: center; 
+        }
     </style>
 </head>
 <body>
+    <!-- Título principal de la aplicación -->
     <h1>Mis Tareas</h1>
 
+    <!-- Formulario para agregar nuevas tareas -->
+    <!-- Método POST envía los datos al endpoint /add -->
     <form action="/add" method="POST">
         <input type="text" name="title" placeholder="¿Qué tienes que hacer hoy?" required>
         <button type="submit">Agregar</button>
     </form>
 
+    <!-- Lista de tareas -->
     <div class="task-list">
+        <!-- Bucle Jinja2 para iterar sobre todas las tareas -->
         {% for task in tasks %}
         <div class="task">
+            <!-- Título de la tarea con estilo condicional si está completada -->
             <span class="{{ 'completed' if task.complete else '' }}">
                 {{ task.title }}
             </span>
+            
+            <!-- Acciones disponibles para cada tarea -->
             <div class="actions">
+                <!-- Enlace para marcar como completada o deshacer -->
                 <a href="/update/{{ task.id }}" class="btn-check">
                     {{ 'Deshacer' if task.complete else 'Completar' }}
                 </a>
+                
+                <!-- Enlace para eliminar la tarea -->
                 <a href="/delete/{{ task.id }}" class="btn-delete">Eliminar</a>
             </div>
         </div>
         {% else %}
+        <!-- Mensaje que se muestra cuando no hay tareas -->
         <p style="text-align: center; color: gray;">No hay tareas pendientes. ¡Agrega una!</p>
         {% endfor %}
     </div>
